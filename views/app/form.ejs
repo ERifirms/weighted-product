@@ -1,0 +1,141 @@
+<% layout("layouts/app") %>
+<form id="myForm" action="/calculate" method="POST">
+  <div class="row">
+    <div class="mb-2 col-md-2">
+      <label for="c1" class="label">C1</label>
+      <input name="c1" type="text" class="form-control" />
+    </div>
+    <div class="mb-2 col-md-2">
+      <label for="c2 col-md-2" class="">C2</label>
+      <input name="c2" type="text" class="form-control" />
+    </div>
+    <div class="mb-2 col-md-2">
+      <label for="c3" class="">C3</label>
+      <input name="c3" type="text" class="form-control" />
+    </div>
+    <div class="mb-2 col-md-2">
+      <label for="c4" class="">C4</label>
+      <input name="c4" type="text" class="form-control" />
+    </div>
+    <div class="mb-2 col-md-2">
+      <label for="c5" class="">C5</label>
+      <input name="c5" type="text" class="form-control" />
+    </div>
+  </div>
+  <div class="container mt-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Alternatif</th>
+          <th scope="col">C1</th>
+          <th scope="col">C2</th>
+          <th scope="col">C3</th>
+          <th scope="col">C4</th>
+          <th scope="col">C5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>R1</td>
+          <td><input class="form-control" type="text" name="r1c1" /></td>
+          <td><input class="form-control" type="text" name="r1c2" /></td>
+          <td><input class="form-control" type="text" name="r1c3" /></td>
+          <td><input class="form-control" type="text" name="r1c4" /></td>
+          <td><input class="form-control" type="text" name="r1c5" /></td>
+        </tr>
+        <tr>
+          <td>R2</td>
+          <td><input class="form-control" type="text" name="r2c1" /></td>
+          <td><input class="form-control" type="text" name="r2c2" /></td>
+          <td><input class="form-control" type="text" name="r2c3" /></td>
+          <td><input class="form-control" type="text" name="r2c4" /></td>
+          <td><input class="form-control" type="text" name="r2c5" /></td>
+        </tr>
+        <tr>
+          <td>R3</td>
+          <td><input class="form-control" type="text" name="r3c1" /></td>
+          <td><input class="form-control" type="text" name="r3c2" /></td>
+          <td><input class="form-control" type="text" name="r3c3" /></td>
+          <td><input class="form-control" type="text" name="r3c4" /></td>
+          <td><input class="form-control" type="text" name="r3c5" /></td>
+        </tr>
+        <tr>
+          <td>R4</td>
+          <td><input class="form-control" type="text" name="r4c1" /></td>
+          <td><input class="form-control" type="text" name="r4c2" /></td>
+          <td><input class="form-control" type="text" name="r4c3" /></td>
+          <td><input class="form-control" type="text" name="r4c4" /></td>
+          <td><input class="form-control" type="text" name="r4c5" /></td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary" id="submitButton">
+      Submit and show modal
+    </button>
+  </div>
+</form>
+
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal Title</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Modal body content goes here -->
+        <p id="modalContent1"></p>
+        <p id="modalContent2"></p>
+        <p id="modalContent3"></p>
+        <p id="modalContent4"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" id="understoodButton">
+          Understood
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Add your JavaScript libraries -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Your custom JavaScript -->
+<script>
+  $(document).ready(function () {
+    $("#myForm").submit(function (e) {
+      e.preventDefault();
+
+      // Kirim permintaan AJAX ke server
+      $.ajax({
+        type: "POST",
+        url: "/submit",
+        data: $(this).serialize(),
+        success: function (data) {
+          // Setel konten modal dengan hasil dari server
+          $("#modalContent1").text("R1, " + data.resultV1);
+          $("#modalContent2").text("R2, " + data.resultV2);
+          $("#modalContent3").text("R3, " + data.resultV3);
+          $("#modalContent4").text("R4, " + data.resultV4);
+          // Tampilkan modal
+          $("#staticBackdrop").modal("show");
+        },
+      });
+    });
+  });
+</script>
